@@ -1,47 +1,53 @@
 """
 download_visdrone.py
 
-Purpose:
-This script documents and verifies the VisDrone dataset dependency.
-
-Due to the large size of the dataset, VisDrone is not stored directly
-in this GitHub repository. Instead, users are instructed to download
-the dataset from the official source and place it in the expected
-directory structure.
+Downloads the VisDrone2019-DET dataset splits from Google Drive and extracts
+them to the expected local directory.
 
 Official source:
 https://github.com/VisDrone/VisDrone-Dataset
 """
 
-from pathlib import Path
 import sys
+import zipfile
+from pathlib import Path
 
-# Expected dataset location
+import gdown
+
 VISDRONE_DIR = Path("data/raw/visdrone")
 
-def main():
-    print("VisDrone Dataset Setup")
-    print("-" * 40)
+# Google Drive file IDs sourced from the official VisDrone GitHub README
+SPLITS = {
+    "VisDrone2019-DET-train": "1a2oHjcEcwXP8oUF95qiwrqzACb2YlUhn",
+    "VisDrone2019-DET-val": "1bxK5zgLn0_L8x276eKkuYA_FzwCIjb59",
+    "VisDrone2019-DET-test-dev": "1PFdW_VFSCfZ_sTSZAGjQdifF_Xd5mf0V",
+}
 
-    if VISDRONE_DIR.exists():
-        print(f"VisDrone dataset found at: {VISDRONE_DIR.resolve()}")
-        print("Dataset is available and ready for use.")
-    else:
-        print("VisDrone dataset not found.")
-        print()
-        print("Please download the VisDrone Detection dataset from:")
-        print("https://github.com/VisDrone/VisDrone-Dataset")
-        print()
-        print("After downloading, extract the dataset so that the directory")
-        print("structure matches the following:")
-        print()
-        print("data/raw/visdrone/")
-        print("├── VisDrone2019-DET-train/")
-        print("├── VisDrone2019-DET-val/")
-        print("└── VisDrone2019-DET-test-dev/")
-        print()
-        print("Once extracted, re-run this script.")
-        sys.exit(1)
+
+def main() -> int:
+    VISDRONE_DIR.mkdir(parents=True, exist_ok=True)
+
+    for split_name, file_id in SPLITS.items():
+        split_dir = VISDRONE_DIR / split_name
+        if split_dir.exists() and any(split_dir.iterdir()):
+            print(f"{split_name} already present — skipping.")
+            continue
+
+        zip_path = VISDRONE_DIR / f"{split_name}.zip"
+        url = f"https://drive.google.com/uc?id={file_id}"
+
+        print(f"\nDownloading {split_name}...")
+        gdown.download(url, str(zip_path), quiet=False)
+
+        print(f"Extracting {split_name}...")
+        with zipfile.ZipFile(zip_path, "r") as zf:
+            zf.extractall(VISDRONE_DIR)
+        zip_path.unlink()
+        print(f"{split_name} ready.")
+
+    print(f"\nVisDrone dataset ready at {VISDRONE_DIR.resolve()}")
+    return 0
+
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

@@ -82,12 +82,14 @@ with all associated license terms.
 
 ## Data Access and Reproducibility
 
-To reproduce the dataset locally, refer to the scripts provided in the
-`scripts/` directory:
+To reproduce the dataset locally, first install the required dependencies:
 
-- `download_visdrone.py`
-- `download_uavdt.py`
-- `verify_datasets.py`
+```
+pip install -r requirements.txt
+```
 
-These scripts document expected directory structures and verify that the
-datasets are correctly installed before further processing.
+Then run the download scripts from the `scripts/` directory:
+
+- `download_uavdt.py` — downloads and extracts the UAVDT dataset from Zenodo (~4 GB) into `data/raw/uavdt/`
+- `download_visdrone.py` — downloads and extracts the VisDrone2019-DET train, val, and test-dev splits from Google Drive into `data/raw/visdrone/`
+- `verify_datasets.py` — verifies that both datasets are present and reports image and annotation counts
