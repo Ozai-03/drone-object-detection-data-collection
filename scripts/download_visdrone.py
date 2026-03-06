@@ -41,7 +41,12 @@ def main() -> int:
 
         print(f"Extracting {split_name}...")
         with zipfile.ZipFile(zip_path, "r") as zf:
-            zf.extractall(VISDRONE_DIR)
+            top_level_dirs = {name.split("/")[0] for name in zf.namelist()}
+            if split_name in top_level_dirs:
+                zf.extractall(VISDRONE_DIR)
+            else:
+                split_dir.mkdir(exist_ok=True)
+                zf.extractall(split_dir)
         zip_path.unlink()
         print(f"{split_name} ready.")
 
