@@ -1,0 +1,20 @@
+{
+  "model_name": "yolov8n",
+  "weights": "yolov8n.pt",
+  "dataset": "subset (35% of train)",
+  "epochs_completed": 20,
+  "best_epoch": 20,
+  "training_time_seconds": 467.4,
+  "model_size_mb": 6.25,
+  "config": {
+    "epochs": 20,
+    "imgsz": 640,
+    "batch": 16
+  },
+  "best_metrics": {
+    "mAP50": 0.4365,
+    "mAP50_95": 0.2068,
+    "precision": 0.5498,
+    "recall": 0.4389
+  }
+}
