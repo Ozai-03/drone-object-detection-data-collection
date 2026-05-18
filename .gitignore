@@ -49,3 +49,8 @@ notebooks/final_class_distribution.png
 notebooks/objects_per_image.png
 notebooks/occlusion_truncation.png
 notebooks/spatial_heatmap.png
+
+colab/results/**/train_batch*.jpg
+colab/results/**/val_batch*.jpg
+colab/results/**/labels.jpg
+colab/results/**/weights/
