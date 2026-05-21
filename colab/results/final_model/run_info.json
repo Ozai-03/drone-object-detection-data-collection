@@ -1,0 +1,18 @@
+{
+  "model_name": "yolov8m",
+  "weights": "yolov8m.pt",
+  "dataset": "combined (full)",
+  "epochs_completed": 100,
+  "best_epoch": 77,
+  "training_time_seconds": 11668.3,
+  "model_size_mb": 52.04,
+  "config": {
+    "batch": 8
+  },
+  "best_metrics": {
+    "mAP50": 0.6438,
+    "mAP50_95": 0.3467,
+    "precision": 0.7428,
+    "recall": 0.6094
+  }
+}
